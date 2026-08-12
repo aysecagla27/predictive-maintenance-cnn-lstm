@@ -1,0 +1,29 @@
+
+Sonra root dizinde `.gitignore` oluştur ve şunu koy:
+
+```gitignore
+# Dataset
+data/CMAPSSData.zip
+data/cmapss_data/
+data/*.txt
+*.zip
+
+# Model files
+*.h5
+*.keras
+*.pt
+*.pth
+*.bin
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db
