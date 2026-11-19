@@ -195,6 +195,8 @@ Rather than training only a single final model, several stages were evaluated to
 | Advanced Feature Engineering | ~11.9 |
 | Optimized CNN-LSTM | **11.61** |
 
+*Validation RMSE values come from a random window-level split and are likely
+optimistic; see Limitations.*
 The largest improvement occurred after replacing the linear RUL formulation with the piecewise target.
 
 Feature engineering and the hybrid CNN-LSTM architecture provided additional improvements.
@@ -263,17 +265,15 @@ The final experiments demonstrate three main findings:
 
 ### Final Performance
 
-**Validation**
-
-- RMSE: **11.61**
-
-**Blind Test**
+**Blind Test (official FD001 test engines)**
 
 - RMSE: **17.47**
 - R²: **0.8156**
 
----
+**Validation** (random window-level split, see Limitations)
 
+- RMSE: 11.61
+---
 ## Visual Results
 
 ### Model Development
@@ -359,6 +359,22 @@ The notebook automatically extracts and locates the required FD001 files.
 ## Limitations and Future Work
 
 This project focuses on the FD001 subset, which represents a single operating condition and a single fault mode.
+
+### Validation Protocol
+
+Validation sets were created with a random `train_test_split` over sliding windows.
+Because windows from the same engine, including overlapping windows, can appear in
+both the training and validation sets, the validation RMSE values reported in this
+repository are likely optimistic. In addition, the MinMax scaler and the
+mutual-information feature selection were fitted on the full training set,
+including the validation portion.
+
+The blind-test results on the official FD001 test engines, which were not used for
+training or feature selection, are therefore the more reliable measure of
+generalization.
+
+A natural next step is an engine-level split (for example, `GroupShuffleSplit` on
+the engine ID), with scaling and feature selection fitted only on the training engines.
 
 Future work could investigate:
 
